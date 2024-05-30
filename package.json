@@ -1,0 +1,31 @@
+{
+  "name": "bitespeed-backend-assignment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuj-thakur-513/Bitespeed-Backend-Assignment.git"
+  },
+  "author": "Anuj Thakur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anuj-thakur-513/Bitespeed-Backend-Assignment/issues"
+  },
+  "homepage": "https://github.com/anuj-thakur-513/Bitespeed-Backend-Assignment#readme",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2",
+    "prisma": "^5.14.0"
+  }
+}
