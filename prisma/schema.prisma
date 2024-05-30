@@ -12,3 +12,21 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+enum Precedence {
+  Primary
+  Secondary
+}
+
+model Contact {
+  id             Int        @id @default(autoincrement())
+  phoneNumber    String     @map("phone_number")
+  email          String
+  linkedId       Int        @map("linked_id")
+  linkPrecedence Precedence @default(Primary) @map("link_precedence")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+  deletedAt      DateTime   @map("deleted_at")
+
+  @@map("contacts")
+}
