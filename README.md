@@ -61,7 +61,7 @@ npm start or npm run dev
 ## API Reference
 
 ```http
-  POST /identify
+POST /identify
 ```
 
 | Parameter     | Type     | Description                                     |
