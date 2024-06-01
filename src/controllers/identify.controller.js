@@ -4,7 +4,6 @@ const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 
 const handleIdentify = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { email, phoneNumber } = req.body;
 
   if (!email && !phoneNumber) {
@@ -18,8 +17,6 @@ const handleIdentify = asyncHandler(async (req, res) => {
     },
     orderBy: { createdAt: "asc" },
   });
-
-  console.log(`Fetched contacts: ${contacts}`);
 
   let primaryContact;
   let response;
@@ -51,6 +48,10 @@ const handleIdentify = asyncHandler(async (req, res) => {
       primaryContact = await prisma.contact.findFirst({
         where: { id: primaryContact },
       });
+      contacts.push(primaryContact);
+      // Sort contacts by id in ascending order after adding newSecondaryContact
+      contacts.sort((a, b) => a.id - b.id);
+      console.log(contacts);
     }
 
     // Check if new information needs to be added as a secondary contact
@@ -74,17 +75,18 @@ const handleIdentify = asyncHandler(async (req, res) => {
     }
 
     // Merge contacts based on new primary-secondary linking logic
-    const emails = new Set();
-    const phoneNumbers = new Set();
-    const secondaryContactIds = new Set();
+    const emails = [];
+    const phoneNumbers = [];
+    const secondaryContactIds = [];
 
     contacts.forEach((contact) => {
-      if (contact.email) emails.add(contact.email);
-      if (contact.phoneNumber) phoneNumbers.add(contact.phoneNumber);
+      if (contact.email && !emails.includes(contact.email))
+        emails.push(contact.email);
+      if (contact.phoneNumber && !phoneNumbers.includes(contact.phoneNumber))
+        phoneNumbers.push(contact.phoneNumber);
       if (contact.linkPrecedence === "Secondary")
-        secondaryContactIds.add(contact.id);
+        secondaryContactIds.push(contact.id);
     });
-
     // Determine if a primary contact needs to be updated to secondary
     const conflictingPrimary = contacts.find(
       (contact) =>
